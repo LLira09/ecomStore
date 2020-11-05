@@ -4,6 +4,7 @@ Rails.application.routes.draw do
         namespace :v1 do 
             resources :products
             get('/products', to: 'products#index')
+            get('products/:id', to: 'products#show')
         end
     end
 end
