@@ -4,6 +4,7 @@ import Product from '../components/Product.js'
 import CarouselImg from '../components/CarouselImg'
 
 class HomeScreen extends React.Component {
+
   render() {
     return (
       <div>

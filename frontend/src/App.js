@@ -6,6 +6,7 @@ import Product from './components/Product'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import SignIn from './components/SignIn'
+import Cart from './components/Cart'
 import SignUp from './components/SignUp'
 import { Container } from 'react-bootstrap'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
@@ -14,7 +15,8 @@ const URL = 'http://localhost:3000/api/v1/products'
 
 class App extends React.Component {
   state = {
-    allProducts: []
+    allProducts: [],
+    cart: []
   }
 
   componentDidMount = () => {
@@ -23,14 +25,14 @@ class App extends React.Component {
       .then(prod => this.setState({ allProducts: prod }))
   }
 
-  // renderProducts = () => {
-  //   console.log('all', this.state.allProducts)
-  //   return this.state.allProducts.map(product => (
-  //       <Product
-  //           product={product}
-  //       />
-  //   ))
-  // }
+
+addToCart = (product) => {
+  this.setState({
+    cart: [...this.state.cart, product]
+  })
+}
+
+
 
   render() {
     return (
@@ -38,6 +40,8 @@ class App extends React.Component {
         <Header />
         <main className='py-3'>
           <Container>
+
+            <Route exact path='/cart' render={(routeProps) => (<Cart {...routeProps} cart={this.state.cart} />)} />
             <Route
               exact
               path='/'

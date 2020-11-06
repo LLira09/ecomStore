@@ -6,6 +6,7 @@ const URL = 'http://localhost:3000/api/v1/products/'
 
 class ProductScreen extends React.Component {
   state = {
+    id: '',
     name: '',
     image_url: '',
     brand: '',
@@ -21,6 +22,7 @@ class ProductScreen extends React.Component {
       .then(res => res.json())
       .then(prod =>
         this.setState({
+          id: prod.id,
           name: prod.name,
           image_url: prod.image_url,
           brand: prod.brand,
@@ -79,6 +81,7 @@ class ProductScreen extends React.Component {
                     className='btn-block'
                     type='button'
                     disabled={this.state.num_in_stock === 0}
+                    onClick={() => {this.props.addToCart(this.state)}}
                   >
                     Add To Cart
                   </Button>
