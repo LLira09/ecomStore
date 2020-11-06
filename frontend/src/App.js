@@ -14,7 +14,7 @@ function App() {
       <main className='py-3'>
         <Container>
           <Route exact path='/' component={HomeScreen} />
-          <Route exact path='/product' component={ProductScreen} />
+          <Route exact path='/products/:id' render={(routeProps) => (<ProductScreen {...routeProps}/>)}/>
         </Container>
       </main>
       <Footer />
