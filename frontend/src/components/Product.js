@@ -1,18 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Card } from 'react-bootstrap'
 
 class Product extends React.Component {
-    render(){
-        return(
-            <Link to={`products/${this.props.product.id}`}>
-            <div>
-                <h3>{this.props.product.name}</h3>
-                <img src={this.props.product.image_url} style={{width:200}}></img>
-                <h3>${this.props.product.price}</h3>
-            </div>
-            </Link>
-        )
-    }
+  render() {
+    return (
+      <Card className='m-3 p-3 rounded '>
+        <Link to={`products/${this.props.product.id}`}>
+          <Card.Img src={this.props.product.image_url} variant='top' fluid />
+        </Link>
+        <Card.Body>
+          <Link to={`products/${this.props.product.id}`}>
+            <Card.Title as='div'>{this.props.product.name}</Card.Title>
+          </Link>
+          <Card.Text as='div'>
+            <h3>${this.props.product.price}</h3>
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    )
+  }
 }
 
 export default Product

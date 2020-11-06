@@ -1,5 +1,7 @@
 import React from 'react'
+import { Row, Col } from 'react-bootstrap'
 import Product from '../components/Product.js'
+import CarouselImg from '../components/CarouselImg'
 
 
 
@@ -14,6 +16,7 @@ class HomeScreen extends React.Component {
 
         )
     }
+
 }
 
 export default HomeScreen
