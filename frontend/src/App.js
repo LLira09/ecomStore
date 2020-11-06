@@ -19,19 +19,12 @@ class App extends React.Component {
     cart: []
   }
 
-
   componentDidMount = () => {
-    fetch(URL).then(res => res.json()).then(prod => this.setState({ allProducts: prod }))
+    fetch(URL)
+      .then(res => res.json())
+      .then(prod => this.setState({ allProducts: prod }))
   }
 
-  renderProducts = () => {
-    console.log('all', this.state.allProducts)
-    return this.state.allProducts.map(product => (
-        <Product
-            product={product}
-        />
-    ))
-}
 
 addToCart = (product) => {
   this.setState({
@@ -41,18 +34,35 @@ addToCart = (product) => {
 
 
 
-
   render() {
     return (
       <Router>
         <Header />
         <main className='py-3'>
           <Container>
-            <Route exact path='/' render={(routeProps) => (<HomeScreen {...routeProps} renderProducts={this.renderProducts} />)} />
-            <Route exact path='/products/:id' render={(routeProps) => (<ProductScreen {...routeProps} addToCart={this.addToCart} />)} />
-            <Route exact path='/login' component={SignIn} />
-            <Route exact path='/signup' render={(routeProps) => (<SignUp {...routeProps} />)} />
+
             <Route exact path='/cart' render={(routeProps) => (<Cart {...routeProps} cart={this.state.cart} />)} />
+            <Route
+              exact
+              path='/'
+              render={routeProps => (
+                <HomeScreen
+                  {...routeProps}
+                  allProducts={this.state.allProducts}
+                />
+              )}
+            />
+            <Route
+              exact
+              path='/products/:id'
+              render={routeProps => <ProductScreen {...routeProps} />}
+            />
+            <Route exact path='/login' component={SignIn} />
+            <Route
+              exact
+              path='/signup'
+              render={routeProps => <SignUp {...routeProps} />}
+            />
           </Container>
         </main>
         <Footer />

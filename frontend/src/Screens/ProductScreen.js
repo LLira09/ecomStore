@@ -4,7 +4,6 @@ import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 
 const URL = 'http://localhost:3000/api/v1/products/'
 
-
 class ProductScreen extends React.Component {
   state = {
     id: '',
@@ -91,13 +90,9 @@ class ProductScreen extends React.Component {
             </Card>
           </Col>
         </Row>
-       
-
-       
       </div>
     )
   }
-
 }
 
 export default ProductScreen
