@@ -13,7 +13,6 @@ class HomeScreen extends React.Component {
             <div>
                 {this.props.renderProducts()}
             </div>
-
         )
     }
 
