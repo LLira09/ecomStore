@@ -30,16 +30,14 @@ class ProductScreen extends React.Component{
     render(){
         return(
             <div>
-                <h3>im the product screen</h3>
                 <h3>{this.state.name}</h3>
                 <img style={{width: 400}} src={this.state.image_url}></img>
                 <hr></hr>
                 <h3>${this.state.price} - {this.state.num_in_stock} in Stock</h3>
-                <h8>Made By:{this.state.brand}</h8>
+                <h8>Brand:{this.state.brand}</h8>
                 <h8>{this.state.description}</h8>
                 <br></br>
-                <button>Add to Cart</button>
-                
+                <button>Add to Cart</button>       
             </div>
 
         )
