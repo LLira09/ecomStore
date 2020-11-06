@@ -55,7 +55,7 @@ addToCart = (product) => {
             <Route
               exact
               path='/products/:id'
-              render={routeProps => <ProductScreen {...routeProps} />}
+              render={routeProps => <ProductScreen {...routeProps} addToCart={this.addToCart}/>}
             />
             <Route exact path='/login' component={SignIn} />
             <Route
