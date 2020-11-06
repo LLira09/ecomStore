@@ -1,6 +1,12 @@
 import React from 'react'
 
 class ProductScreen extends React.Component{
+
+    // componentDidMount(){
+    //     fetch(URL)
+    // }
+
+
     render(){
         return(
             <div>
