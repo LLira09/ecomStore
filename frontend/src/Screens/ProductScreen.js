@@ -17,7 +17,6 @@ class ProductScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log('hello', this.props.match.params.id)
     let id = this.props.match.params.id
     fetch(`http://localhost:3000/api/v1/products/${id}`)
       .then(res => res.json())
