@@ -18,7 +18,8 @@ class AccountScreen extends React.Component {
                     <h3>All Current Orders:</h3>
                     <h3>All Accounts</h3>
                     <Link to="/newitem">NEW ITEM</Link>
-                    <h3>Adjust Stock</h3>
+                    <br></br>
+                    <Link to="/adjuststock">ADJUST INVENTORY</Link>
                 </div>
             </div>
         )

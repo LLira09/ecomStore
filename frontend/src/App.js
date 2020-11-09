@@ -10,10 +10,11 @@ import SignIn from './components/SignIn'
 import Cart from './components/Cart'
 import SignUp from './components/SignUp'
 import NewItem from './components/NewItem'
+import AdjustStock from './components/AdjustStock'
 import { Container } from 'react-bootstrap'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-const URL = 'http://localhost:3000/api/v1/products'
+const URL = 'http://localhost:3000/api/v1/products/'
 
 class App extends React.Component {
   state = {
@@ -43,6 +44,23 @@ class App extends React.Component {
     })
   }
 
+  adjustStock =(id, num) => {
+    let updatedProduct = {num_in_stock: num}
+    console.log('id:',id, 'new stock', num)
+    fetch(`http://localhost:3000/api/v1/products/${id}`, {
+      method: 'PATCH',
+      headers: {
+        "Content-Type":"application/json",
+        "Accept":"application/json"
+      },
+      body: JSON.stringify(updatedProduct)
+    } )
+    .then(res=> res.json())
+    .then(ret => this.setState({
+      allProducts: this.state.allProducts.map(prod => prod.id === id ? ret : prod)
+    }))
+  }
+
   handleNewProductSubmit = (newProduct) => {
     console.log(newProduct)
     fetch(URL, {
@@ -69,6 +87,7 @@ class App extends React.Component {
 
             <Route exact path='/newitem' render={(routeProps) => <NewItem {...routeProps} handleNewProductSubmit={this.handleNewProductSubmit}/>} />
             <Route exact path='/account' render={(routeProps) => <AccountScreen {...routeProps} />} />
+            <Route exact path='/adjuststock' render={(routeProps) => <AdjustStock {...routeProps} adjustStock={this.adjustStock} allProducts={this.state.allProducts}/>} />
             <Route exact path='/cart' render={(routeProps) => (<Cart {...routeProps} cart={this.state.cart} removeFromCart={this.removeFromCart} />)} />
 
             <Route
