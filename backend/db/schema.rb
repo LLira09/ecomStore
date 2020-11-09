@@ -10,14 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_05_210924) do
+ActiveRecord::Schema.define(version: 2020_11_09_230541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "ordereditems", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "order_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "user_id"
-    t.text "product_ids", default: [], array: true
     t.boolean "shipped", default: false
     t.boolean "paid", default: false
     t.datetime "created_at", precision: 6, null: false
