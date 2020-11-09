@@ -33,6 +33,22 @@ class ProductScreen extends React.Component {
       )
   }
 
+  handleProductChange = product => {
+    fetch(`http://localhost:3000/api/v1/products/${product.id}`)
+      .then(res => res.json())
+      .then(prod =>
+        this.setState({
+          id: prod.id,
+          name: prod.name,
+          image_url: prod.image_url,
+          brand: prod.brand,
+          description: prod.description,
+          price: prod.price,
+          num_in_stock: prod.num_in_stock
+        })
+      )
+  }
+
   render() {
     return (
       <div>
@@ -93,7 +109,10 @@ class ProductScreen extends React.Component {
           </Col>
         </Row>
         <Row>
-          <MoreItems products={this.props.allProducts} />
+          <MoreItems
+            products={this.props.allProducts}
+            handleProductChange={this.handleProductChange}
+          />
         </Row>
       </div>
     )

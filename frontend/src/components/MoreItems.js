@@ -1,9 +1,10 @@
 import React from 'react'
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
+// import { Link } from 'react-router-dom'
 
-const MoreItems = ({ products }) => {
+const MoreItems = ({ products, handleProductChange }) => {
   //   console.log(products.slice(-4, -1))
-  const lastThree = products.slice(-4, -1)
+  const lastThree = products.slice(-3)
   return (
     <div>
       <h3>New Items</h3>
@@ -14,35 +15,17 @@ const MoreItems = ({ products }) => {
               <Card.Img variant='top' src={product.image_url} />
               <Card.Body>
                 <Card.Title>{product.brand}</Card.Title>
-                <Card.Text>{product.description}</Card.Text>
-                <Button variant='primary'>Go somewhere</Button>
+
+                <Button
+                  onClick={() => handleProductChange(product)}
+                  variant='primary'
+                >
+                  More Info
+                </Button>
               </Card.Body>
             </Card>
           )
         })}
-
-        {/* <Card className='m-3' style={{ width: '18rem' }}>
-          <Card.Img variant='top' src='holder.js/100px180' />
-          <Card.Body>
-            <Card.Title>Card Title</Card.Title>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </Card.Text>
-            <Button variant='primary'>Go somewhere</Button>
-          </Card.Body>
-        </Card>
-        <Card className='m-3' style={{ width: '18rem' }}>
-          <Card.Img variant='top' src='holder.js/100px180' />
-          <Card.Body>
-            <Card.Title>Card Title</Card.Title>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </Card.Text>
-            <Button variant='primary'>Go somewhere</Button>
-          </Card.Body>
-        </Card> */}
       </Row>
     </div>
   )
