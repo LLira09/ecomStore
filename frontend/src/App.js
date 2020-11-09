@@ -25,14 +25,11 @@ class App extends React.Component {
       .then(prod => this.setState({ allProducts: prod }))
   }
 
-
-addToCart = (product) => {
-  this.setState({
-    cart: [...this.state.cart, product]
-  })
-}
-
-
+  addToCart = product => {
+    this.setState({
+      cart: [...this.state.cart, product]
+    })
+  }
 
   render() {
     return (
@@ -40,8 +37,13 @@ addToCart = (product) => {
         <Header />
         <main className='py-3'>
           <Container>
-
-            <Route exact path='/cart' render={(routeProps) => (<Cart {...routeProps} cart={this.state.cart} />)} />
+            <Route
+              exact
+              path='/cart'
+              render={routeProps => (
+                <Cart {...routeProps} cart={this.state.cart} />
+              )}
+            />
             <Route
               exact
               path='/'
@@ -55,7 +57,13 @@ addToCart = (product) => {
             <Route
               exact
               path='/products/:id'
-              render={routeProps => <ProductScreen {...routeProps} addToCart={this.addToCart}/>}
+              render={routeProps => (
+                <ProductScreen
+                  {...routeProps}
+                  addToCart={this.addToCart}
+                  allProducts={this.state.allProducts}
+                />
+              )}
             />
             <Route exact path='/login' component={SignIn} />
             <Route
