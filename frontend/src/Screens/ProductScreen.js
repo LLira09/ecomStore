@@ -32,6 +32,11 @@ class ProductScreen extends React.Component {
       )
   }
 
+  handleClick =(e) =>{
+    this.props.addToCart(this.state)
+    this.props.history.push('/cart')
+  }
+
   render() {
     return (
       <div>
@@ -80,7 +85,7 @@ class ProductScreen extends React.Component {
                     className='btn-block'
                     type='button'
                     disabled={this.state.num_in_stock === 0}
-                    onClick={() => {this.props.addToCart(this.state)}}
+                    onClick={this.handleClick}
                   >
                     Add To Cart
                   </Button>

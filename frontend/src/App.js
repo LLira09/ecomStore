@@ -41,7 +41,6 @@ class App extends React.Component {
   }
 
   handleNewProductSubmit = (newProduct) => {
-    console.log(newProduct)
     fetch(URL, {
       method: 'POST',
       headers: {
