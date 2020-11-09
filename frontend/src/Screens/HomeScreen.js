@@ -11,7 +11,7 @@ class HomeScreen extends React.Component {
         <Row>
           {this.props.allProducts.map(product => (
             <Col sm={12} md={6} lg={4} xl={3}>
-              <Product product={product} />
+              <Product product={product}/>
             </Col>
           ))}
         </Row>
