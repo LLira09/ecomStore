@@ -62,7 +62,7 @@ class Cart extends React.Component {
           </Col>
           <Col md={4}>
             <h3>Total: ${total}</h3>
-            <Button>Proceed To Payment</Button>
+            <Button onClick={this.props.startOrder} >Proceed To Payment</Button>
           </Col>
 
           {/* {this.renderCart()} */}
