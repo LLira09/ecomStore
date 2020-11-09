@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { Carousel } from 'react-bootstrap'
+import image1 from '../images/key1.jpg'
+import image2 from '../images/key2.jpg'
+import image3 from '../images/key3.jpg'
 
 const CarouselImg = props => {
   return (
@@ -8,38 +11,39 @@ const CarouselImg = props => {
         <Carousel.Item>
           <img
             className='d-block w-100'
-            src='https://mechanicalkeyboards.com/shop/images/products/large_5027_large_DKON1861ST-USPDWWT1_main.png'
-            alt='First slide'
+            height={450}
+            src={image3}
+            alt='KeyBoards'
           />
           <Carousel.Caption>
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+            <h3>Custom Keyboards</h3>
+            <p>Ranging from 60% to full size</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
           <img
             className='d-block w-100'
-            src='https://mechanicalkeyboards.com/shop/images/products/large_KB181-White_main.jpg'
-            alt='Third slide'
+            height={450}
+            src={image2}
+            alt='KeyBoard'
           />
 
           <Carousel.Caption>
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h3>Limited Stock</h3>
+            <p>On most popular 60% Mechanical Keyboards</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
           <img
             className='d-block w-100'
-            src='https://mechanicalkeyboards.com/shop/images/products/large_DMFE20O-OAAPA81_main.jpg'
-            alt='Third slide'
+            height={450}
+            src={image1}
+            alt='KeyBoard'
           />
 
           <Carousel.Caption>
-            <h3>Third slide label</h3>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
+            <h3>Different switches available</h3>
+            <p>Keybords avaiable by switch.</p>
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>

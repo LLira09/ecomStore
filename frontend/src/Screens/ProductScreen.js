@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
+import MoreItems from '../components/MoreItems'
 
 const URL = 'http://localhost:3000/api/v1/products/'
 
@@ -80,7 +81,9 @@ class ProductScreen extends React.Component {
                     className='btn-block'
                     type='button'
                     disabled={this.state.num_in_stock === 0}
-                    onClick={() => {this.props.addToCart(this.state)}}
+                    onClick={() => {
+                      this.props.addToCart(this.state)
+                    }}
                   >
                     Add To Cart
                   </Button>
@@ -88,6 +91,9 @@ class ProductScreen extends React.Component {
               </ListGroup>
             </Card>
           </Col>
+        </Row>
+        <Row>
+          <MoreItems products={this.props.allProducts} />
         </Row>
       </div>
     )
