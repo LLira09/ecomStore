@@ -13,4 +13,10 @@ class Api::V1::ProductsController < ApplicationController
     product = Product.create(name: params[:name], category: params[:cateogry], price: params[:price], description: params[:description], num_in_stock: params[:num_in_stock], image_url: params[:image_url], brand: params[:brand])
     render json: product, only: [:id, :cateogry, :name, :image_url, :brand, :description, :price, :num_in_stock]
   end
+
+  def update
+    product = Product.find(params[:id])
+    product.update(num_in_stock: params[:num_in_stock])
+    render json: product, only: [:id, :cateogry, :name, :image_url, :brand, :description, :price, :num_in_stock]
+  end
 end
