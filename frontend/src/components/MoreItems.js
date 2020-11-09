@@ -15,7 +15,7 @@ const MoreItems = ({ products, handleProductChange }) => {
               <Card.Img variant='top' src={product.image_url} />
               <Card.Body>
                 <Card.Title>{product.brand}</Card.Title>
-
+                {/* <Link to={`/products/${product.id}`}>Product</Link> */}
                 <Button
                   onClick={() => handleProductChange(product)}
                   variant='primary'
