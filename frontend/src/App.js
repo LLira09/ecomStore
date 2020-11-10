@@ -29,10 +29,10 @@ class App extends React.Component {
     fetch(URL)
       .then(res => res.json())
       .then(prod => this.setState({ allProducts: prod }))
-      fetch('http://localhost:3000/api/v1/orders')
+    fetch('http://localhost:3000/api/v1/orders')
       .then(res => res.json())
       .then(orders => this.setState({ allOrders: orders }))
-      fetch('http://localhost:3000/api/v1/users')
+    fetch('http://localhost:3000/api/v1/users')
       .then(res => res.json())
       .then(users => this.setState({ allUsers: users }))
   }
@@ -72,11 +72,12 @@ class App extends React.Component {
       body: JSON.stringify(newOrder)
     })
       .then(res => res.json())
-      .then(order => {console.log('this is the order',order)
+      .then(order => {
+        console.log('this is the order', order)
         this.setState({
-        order_id: order.id
-      })
-      this.createOrderedItems()
+          order_id: order.id
+        })
+        this.createOrderedItems()
       })
   }
 
@@ -122,8 +123,8 @@ class App extends React.Component {
   }
 
   adjustForOrder = () => {
-    this.state.cart.map(item =>{
-      item.num_in_stock = item.num_in_stock -1 
+    this.state.cart.map(item => {
+      item.num_in_stock = item.num_in_stock - 1
       fetch(`http://localhost:3000/api/v1/products/${item.id}`, {
         method: 'PATCH',
         headers: {
@@ -136,7 +137,7 @@ class App extends React.Component {
         .then(ret => this.setState({
           allProducts: this.state.allProducts.map(prod => prod.id === item.id ? ret : prod)
         }))
-      })
+    })
   }
 
   handleNewProductSubmit = (newProduct) => {
@@ -153,6 +154,22 @@ class App extends React.Component {
       .then(returnedProduct => this.setState({ allProducts: [...this.state.allProducts, returnedProduct] }))
   }
 
+  markAsPaid = (id) => {
+    console.log('mark as paid', id)
+    fetch(`http://localhost:3000/api/v1/orders/${id}`, {
+      method: 'PATCH',
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({paid: true})
+    })
+      .then(res => res.json())
+      .then(paidOrder => this.setState({
+        allOrders: this.state.allOrders.map(order => order.id === id ? paidOrder : order)
+      }))
+  }
+
 
 
 
@@ -164,7 +181,7 @@ class App extends React.Component {
           <Container>
 
             <Route exact path='/newitem' render={(routeProps) => <NewItem {...routeProps} handleNewProductSubmit={this.handleNewProductSubmit} />} />
-            <Route exact path='/account' render={(routeProps) => <AccountScreen {...routeProps} allOrders={this.state.allOrders} allUsers={this.state.allUsers} />} />
+            <Route exact path='/account' render={(routeProps) => <AccountScreen {...routeProps} allOrders={this.state.allOrders} allUsers={this.state.allUsers} markAsPaid={this.markAsPaid} />} />
             <Route exact path='/adjuststock' render={(routeProps) => <AdjustStock {...routeProps} adjustStock={this.adjustStock} allProducts={this.state.allProducts} />} />
             <Route exact path='/cart' render={(routeProps) => (<Cart {...routeProps} startOrder={this.startOrder} cart={this.state.cart} removeFromCart={this.removeFromCart} />)} />
 

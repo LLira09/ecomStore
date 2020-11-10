@@ -13,4 +13,10 @@ class Api::V1::OrdersController < ApplicationController
     newOrder = Order.create!(user_id: params[:user_id], paid: false, shipped: false)
     render json: newOrder
   end
+
+  def update
+    order = Order.find(params[:id])
+    order.update(paid: params[:paid])
+    render json: order, only: [:user_id, :shipped, :paid], include: { products: { only: [:name, :brand, :price] } }
+  end
 end
