@@ -19,6 +19,8 @@ const URL = 'http://localhost:3000/api/v1/products/'
 class App extends React.Component {
   state = {
     allProducts: [],
+    allOrders: [],
+    allUsers: [],
     cart: [],
     order_id: ''
   }
@@ -27,6 +29,12 @@ class App extends React.Component {
     fetch(URL)
       .then(res => res.json())
       .then(prod => this.setState({ allProducts: prod }))
+      fetch('http://localhost:3000/api/v1/orders')
+      .then(res => res.json())
+      .then(orders => this.setState({ allOrders: orders }))
+      fetch('http://localhost:3000/api/v1/users')
+      .then(res => res.json())
+      .then(users => this.setState({ allUsers: users }))
   }
 
   addToCart = (product) => {
@@ -34,6 +42,7 @@ class App extends React.Component {
     this.setState({
       cart: [...this.state.cart, product]
     })
+    alert(`${product.name} has been added to cart`)
   }
 
   removeFromCart = (input) => {
@@ -74,6 +83,7 @@ class App extends React.Component {
   createOrderedItems = () => {
     console.log('create ordered items', this.state, 'wtf')
     this.state.cart.map(item => this.createJoin(item))
+    this.adjustForOrder()
   }
 
   createJoin = (prod) => {
@@ -111,6 +121,24 @@ class App extends React.Component {
       }))
   }
 
+  adjustForOrder = () => {
+    this.state.cart.map(item =>{
+      item.num_in_stock = item.num_in_stock -1 
+      fetch(`http://localhost:3000/api/v1/products/${item.id}`, {
+        method: 'PATCH',
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(item)
+      })
+        .then(res => res.json())
+        .then(ret => this.setState({
+          allProducts: this.state.allProducts.map(prod => prod.id === item.id ? ret : prod)
+        }))
+      })
+  }
+
   handleNewProductSubmit = (newProduct) => {
     console.log(newProduct)
     fetch(URL, {
@@ -136,7 +164,7 @@ class App extends React.Component {
           <Container>
 
             <Route exact path='/newitem' render={(routeProps) => <NewItem {...routeProps} handleNewProductSubmit={this.handleNewProductSubmit} />} />
-            <Route exact path='/account' render={(routeProps) => <AccountScreen {...routeProps} />} />
+            <Route exact path='/account' render={(routeProps) => <AccountScreen {...routeProps} allOrders={this.state.allOrders} allUsers={this.state.allUsers} />} />
             <Route exact path='/adjuststock' render={(routeProps) => <AdjustStock {...routeProps} adjustStock={this.adjustStock} allProducts={this.state.allProducts} />} />
             <Route exact path='/cart' render={(routeProps) => (<Cart {...routeProps} startOrder={this.startOrder} cart={this.state.cart} removeFromCart={this.removeFromCart} />)} />
 
