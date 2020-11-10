@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       # get("/users", to: "users#index")
       # get("users/:id", to: "users#show")
       resources :users
+      post('/login', to: 'auth#create')
+      get '/account', to: 'users#account'
     end
   end
 end

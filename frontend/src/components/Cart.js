@@ -1,6 +1,6 @@
 import React from 'react'
 import Product from './Product'
-import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 class Cart extends React.Component {

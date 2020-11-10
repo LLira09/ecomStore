@@ -1,4 +1,5 @@
 class Api::V1::ProductsController < ApplicationController
+  skip_before_action :authorized, only: [:show, :index]
   def index
     products = Product.all
     render json: products, only: [:id, :cateogry, :name, :image_url, :brand, :description, :price, :num_in_stock]
