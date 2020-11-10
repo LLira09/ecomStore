@@ -6,7 +6,8 @@ class AccountScreen extends React.Component {
     state = {
         orders: false,
         users: false,
-        filter: ''
+        filter: '',
+        reset: false
     }
 
     renderOrders = () => {
@@ -56,9 +57,11 @@ class AccountScreen extends React.Component {
 
     handleFilterClick = (e) => {
         console.log(e.target.name)
+        if(this.state.filter === ''){
         this.setState({
             filter: e.target.name
         })
+        }else(this.setState({filter: ''}))
     }
 
     renderTable = () => {
@@ -118,6 +121,10 @@ class AccountScreen extends React.Component {
 
     markAsPaid = (e) => {
         this.props.markAsPaid(e.target.id)
+        this.setState({
+            reset: !this.state.reset
+        })
+    
     }
 
     renderUserOrders = () => {
@@ -148,7 +155,8 @@ class AccountScreen extends React.Component {
         console.log(thisUser)
         return (thisUser.admin === false ? null : 
             <div>
-                <h1>Admin Tools:</h1>
+                <hr></hr>
+                <h3>Admin Tools:</h3>
                 <button onClick={this.handleOrdersClick} >All Current Orders:</button>
                 {this.renderTable()}
                 <br></br>
@@ -171,7 +179,7 @@ class AccountScreen extends React.Component {
         return (
             <div>
                 <div>
-                    <h1>Account Screen For Non-Admin</h1>
+                    <h1>User Dashboard</h1>
                     <h3>Past Orders:</h3>
                     <Table striped bordered hover size="sm">
                         <thead>
