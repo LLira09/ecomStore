@@ -2,7 +2,7 @@ class Api::V1::UsersController < ApplicationController
   skip_before_action :authorized, only: [:create, :show, :index]
   def index
     users = User.all
-    render json: users, only: [:id, :username, :password, :address, :email]
+    render json: users, only: [:id, :username, :password, :address, :email], include: { orders: { only: [:paid, :shipped] } }
   end
 
   def show
