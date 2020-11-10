@@ -6,12 +6,13 @@ class AccountScreen extends React.Component {
     state = {
         orders: false,
         users: false,
-        filter: ''
+        filter: '',
+        reset: false
     }
 
     renderOrders = () => {
         let filter = this.state.filter
-        let sortOrders= this.props.allOrders
+        let sortOrders = this.props.allOrders
         let showOrders = sortOrders.sort((a, b) => b.id - a.id)
         switch (filter) {
             case 'paid':
@@ -56,9 +57,11 @@ class AccountScreen extends React.Component {
 
     handleFilterClick = (e) => {
         console.log(e.target.name)
+        if(this.state.filter === ''){
         this.setState({
             filter: e.target.name
         })
+        }else(this.setState({filter: ''}))
     }
 
     renderTable = () => {
@@ -118,33 +121,85 @@ class AccountScreen extends React.Component {
 
     markAsPaid = (e) => {
         this.props.markAsPaid(e.target.id)
+        this.setState({
+            reset: !this.state.reset
+        })
+    
+    }
+
+    renderUserOrders = () => {
+        let user = JSON.parse(localStorage.getItem('userInfo'))
+        let id = user.user.id
+        let myOrders = this.props.allOrders.filter(order => order.user_id === id)
+        return myOrders.map(order => {
+            return <tr>
+                <td>{order.id}</td>
+                <td>{this.productsNames(order.id)}</td>
+                <td>{order.shipped === true ? 'Shipped' : 'Staged for Shipping'} </td>
+            </tr>
+        })
+
+
+
+    }
+
+    productsNames = (id) => {
+        let order = this.props.allOrders.find(order => order.id === id)
+        return order.products.map(product => <p>{product.name}</p>)
+    }
+
+    renderAdminSection = () => {
+        let user = JSON.parse(localStorage.getItem('userInfo'))
+        let id = user.user.id
+        let thisUser = this.props.allUsers.find(user => user.id === id)
+        console.log(thisUser)
+        return (thisUser.admin === false ? null : 
+            <div>
+                <hr></hr>
+                <h3>Admin Tools:</h3>
+                <button onClick={this.handleOrdersClick} >All Current Orders:</button>
+                {this.renderTable()}
+                <br></br>
+                <button onClick={this.handleUsersClick}>All Accounts</button>
+                {this.renderUsersTable()}
+                <br></br>
+                <Link to="/newitem">NEW ITEM</Link>
+                <br></br>
+                <Link to="/adjuststock">ADJUST INVENTORY</Link>
+            </div>
+        )
+
     }
 
 
 
     render() {
+
+        let user = JSON.parse(localStorage.getItem('userInfo'))
         return (
             <div>
                 <div>
-                    <h1>Account Screen For Non-Admin</h1>
+                    <h1>User Dashboard</h1>
                     <h3>Past Orders:</h3>
+                    <Table striped bordered hover size="sm">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Products</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderUserOrders()}
+                        </tbody>
+                    </Table>
                     <h3>Account Info:</h3>
-                    <p>Name:</p>
-                    <p>Address:</p>
+                    <p>Name: {user.user.username}</p>
+                    <p>Address: {user.user.address}</p>
                     <button>Edit Information</button>
                 </div>
-                <div>
-                    <h1>If admin section:</h1>
-                    <button onClick={this.handleOrdersClick} >All Current Orders:</button>
-                    {this.renderTable()}
-                    <br></br>
-                    <button onClick={this.handleUsersClick}>All Accounts</button>
-                    {this.renderUsersTable()}
-                    <br></br>
-                    <Link to="/newitem">NEW ITEM</Link>
-                    <br></br>
-                    <Link to="/adjuststock">ADJUST INVENTORY</Link>
-                </div>
+                {this.renderAdminSection()}
+
             </div>
         )
     }
