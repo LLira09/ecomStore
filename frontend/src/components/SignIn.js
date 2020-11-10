@@ -33,6 +33,7 @@ class SignIn extends React.Component {
       .then(userInfo => {
         console.log(userInfo)
         localStorage.token = userInfo.jwt
+        localStorage.setItem('userInfo', JSON.stringify(userInfo))
         this.props.history.push('/')
       })
   }
