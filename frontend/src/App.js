@@ -141,6 +141,7 @@ class App extends React.Component {
           allProducts: this.state.allProducts.map(prod => prod.id === item.id ? ret : prod)
         }))
     })
+    window.location.reload()
   }
 
   handleNewProductSubmit = (newProduct) => {
