@@ -6,4 +6,6 @@ Product.create(category: "Mouse", name: "Feather", image_url: "https://mechanica
 Product.create(category: "Mouse", name: "DeathAdder Essential", image_url: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6311/6311863_sd.jpg;maxHeight=640;maxWidth=550", brand: "Razer", description: "Essential Wired Optical Gaming Mouse - Black", price: 49, num_in_stock: 10)
 
 User.create(username: "admin", email: "admin@admin.com", password: "12345678", admin: true, address: "1234 Test St.")
+
+# Order.create(user_id: 1, product_ids: [1,2])
 puts 'Seeded'
