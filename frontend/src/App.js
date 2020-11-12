@@ -46,6 +46,20 @@ class App extends React.Component {
       .then(reviews => this.setState({ allReviews: reviews }))
   }
 
+  addNewUser = (newUser) => {
+    fetch('http://localhost:3000/api/v1/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify(newUser)
+    })
+      .then(res => res.json())
+      .then(newUser => this.setState({
+        allUsers: [...this.state.allUsers, newUser]
+      }))
+  }
 
 
   loggedInUser = user => {
@@ -365,7 +379,7 @@ class App extends React.Component {
             <Route
               exact
               path='/signup'
-              render={routeProps => <SignUp {...routeProps} />}
+              render={routeProps => <SignUp {...routeProps} addNewUser={this.addNewUser} />}
             />
           </Container>
         </main>
