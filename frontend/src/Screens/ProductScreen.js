@@ -35,6 +35,7 @@ class ProductScreen extends React.Component {
   }
 
   handleProductChange = product => {
+    this.props.history.push(`/products/${product.id}`)
     fetch(`http://localhost:3000/api/v1/products/${product.id}`)
       .then(res => res.json())
       .then(prod =>
