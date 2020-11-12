@@ -3,12 +3,12 @@ class Api::V1::ProductsController < ApplicationController
 
   def index
     products = Product.all
-    render json: products, only: [:id, :cateogry, :name, :image_url, :brand, :description, :price, :num_in_stock]
+    render json: products, only: [:id, :cateogry, :name, :image_url, :brand, :description, :price, :num_in_stock], include: { reviews: { only: [:user_id, :product_id, :rating, :review] } }
   end
 
   def show
     product = Product.find(params[:id])
-    render json: product, only: [:id, :cateogry, :name, :image_url, :brand, :description, :price, :num_in_stock]
+    render json: product, only: [:id, :cateogry, :name, :image_url, :brand, :description, :price, :num_in_stock], include: { reviews: { only: [:user_id, :product_id, :rating, :review] } }
   end
 
   def create
