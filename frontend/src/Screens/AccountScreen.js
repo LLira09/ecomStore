@@ -145,14 +145,14 @@ class AccountScreen extends React.Component {
 
     productsNames = (id) => {
         let order = this.props.allOrders.find(order => order.id === id)
-        return order.products.map(product => <p>{product.name}</p>)
+        return order.products.map(product => <p >{product.name}</p>)
     }
 
     renderAdminSection = () => {
         let user = JSON.parse(localStorage.getItem('userInfo'))
         let id = user.user.id
         let thisUser = this.props.allUsers.find(user => user.id === id)
-        console.log(thisUser)
+        // console.log(thisUser)
         return (thisUser.admin === false ? null : 
             <div>
                 <hr></hr>
@@ -171,6 +171,7 @@ class AccountScreen extends React.Component {
 
     }
 
+ 
 
 
     render() {

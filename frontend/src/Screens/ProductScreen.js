@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import MoreItems from '../components/MoreItems'
 
 const URL = 'http://localhost:3000/api/v1/products/'
@@ -13,7 +13,8 @@ class ProductScreen extends React.Component {
     brand: '',
     description: '',
     price: '',
-    num_in_stock: ''
+    num_in_stock: '',
+    rating: ''
   }
 
   componentDidMount() {
@@ -48,6 +49,20 @@ class ProductScreen extends React.Component {
         })
       )
   }
+
+  handleSubmit =(e) =>{
+    e.preventDefault()
+    console.log('submitted', this.state.rating)
+    this.props.newRating(this.state.rating, this.props.match.params.id)
+  }
+
+  ratingChange = (e) => {
+    console.log(e.target.value)
+    this.setState({rating: e.target.value})
+    }
+
+    
+
 
   render() {
     return (
@@ -108,6 +123,24 @@ class ProductScreen extends React.Component {
             </Card>
           </Col>
         </Row>
+
+        <Col md={6}>
+          <Card>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Group>
+                <Form.Control as="select" onChange={this.ratingChange} >
+                  <option default>Leave a Rating</option>
+                  <option value='5'>⭐⭐⭐⭐⭐</option>
+                  <option value='4'>⭐⭐⭐⭐</option>
+                  <option value='3'>⭐⭐⭐</option>
+                  <option value='2'>⭐⭐</option>
+                  <option value='1'>⭐</option>
+                </Form.Control>
+                <Button type="submit" className='btn-block' >Submit</Button>
+              </Form.Group>
+            </Form>
+          </Card>
+        </Col>
         <Row>
           <MoreItems
             products={this.props.allProducts}
