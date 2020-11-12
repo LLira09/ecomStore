@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
+import Rating from './Rating'
 
 class Product extends React.Component {
   render() {
@@ -13,6 +14,7 @@ class Product extends React.Component {
           <Link to={`products/${this.props.product.id}`}>
             <Card.Title as='div'>{this.props.product.name}</Card.Title>
           </Link>
+          <Rating product={this.props.product} />
           <Card.Text as='h3'>${this.props.product.price}</Card.Text>
         </Card.Body>
       </Card>
