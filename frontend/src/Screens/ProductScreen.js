@@ -60,7 +60,7 @@ class ProductScreen extends React.Component {
             <Image src={this.state.image_url} alt={this.state.name} fluid />
           </Col>
 
-          <Col md={4}>
+          <Col md={6}>
             <Card>
               <ListGroup varian='flush'>
                 <ListGroup.Item>

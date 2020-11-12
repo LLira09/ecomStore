@@ -18,7 +18,7 @@ class SignIn extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault()
-
+    // props.loggedInUser()
     fetch('http://localhost:3000/api/v1/login', {
       method: 'POST',
       headers: {
@@ -31,9 +31,10 @@ class SignIn extends React.Component {
     })
       .then(res => res.json())
       .then(userInfo => {
-        console.log(userInfo)
+        // console.log(userInfo)
         localStorage.token = userInfo.jwt
         localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        this.props.loggedInUser(userInfo)
         this.props.history.push('/')
       })
   }

@@ -1,8 +1,8 @@
 import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Navbar, Nav, Container } from 'react-bootstrap'
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
 
-const Header = () => {
+const Header = ({ handleLogout, loggedIn }) => {
   return (
     <div>
       <header>
@@ -20,7 +20,7 @@ const Header = () => {
                     <i className='fas fa-shopping-cart'></i> Cart
                   </Nav.Link>
                 </LinkContainer>
-                <LinkContainer to='/account'>
+                {/* <LinkContainer to='/account'>
                   <Nav.Link>
                     <i class='fas fa-user-alt'></i> Account
                   </Nav.Link>
@@ -29,7 +29,26 @@ const Header = () => {
                   <Nav.Link>
                     <i className='fas fa-user'></i> Sign In
                   </Nav.Link>
-                </LinkContainer>
+                </LinkContainer> */}
+
+                {loggedIn ? (
+                  <NavDropdown title={loggedIn.user.username} id='username'>
+                    <LinkContainer to='/account'>
+                      <Nav.Link>
+                        <i class='fas fa-user-alt'></i> Account
+                      </Nav.Link>
+                    </LinkContainer>
+                    <NavDropdown.Item onClick={() => handleLogout()}>
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                ) : (
+                  <LinkContainer to='/login'>
+                    <Nav.Link>
+                      <i className='fas fa-user'></i> Sign In
+                    </Nav.Link>
+                  </LinkContainer>
+                )}
               </Nav>
             </Navbar.Collapse>
           </Container>

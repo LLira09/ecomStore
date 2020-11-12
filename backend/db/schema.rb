@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_230541) do
 
   create_table "orders", force: :cascade do |t|
     t.integer "user_id"
+    t.text "product_ids", default: [], array: true
     t.boolean "shipped", default: false
     t.boolean "paid", default: false
     t.datetime "created_at", precision: 6, null: false
