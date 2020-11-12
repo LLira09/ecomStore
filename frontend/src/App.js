@@ -21,6 +21,7 @@ class App extends React.Component {
     allProducts: [],
     allOrders: [],
     allUsers: [],
+    allReviews: [],
     cart: [],
     order_id: '',
     loggedInUser: ''
@@ -33,9 +34,12 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/orders')
       .then(res => res.json())
       .then(orders => this.setState({ allOrders: orders }))
-    fetch('http://localhost:3000/api/v1/users')
+      fetch('http://localhost:3000/api/v1/users')
       .then(res => res.json())
       .then(users => this.setState({ allUsers: users }))
+      fetch('http://localhost:3000/api/v1/reviews')
+      .then(res => res.json())
+      .then(reviews => this.setState({ allReviews: reviews}))
   }
 
   loggedInUser = user => {
