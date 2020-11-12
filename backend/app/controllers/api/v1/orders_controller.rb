@@ -1,4 +1,6 @@
 class Api::V1::OrdersController < ApplicationController
+  skip_before_action :authorized, only: [:create, :show, :index, :update]
+
   def index
     orders = Order.all
     render json: orders, include: { products: { only: [:name, :brand, :price] } }

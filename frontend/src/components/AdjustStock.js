@@ -28,7 +28,7 @@ class AdjustStock extends React.Component {
 
     handleClick = (e) => {
         this.props.adjustStock(e.target.id, this.state.stock)
-        window.location.reload(false)
+        window.location.reload()
     }
 
     render() {

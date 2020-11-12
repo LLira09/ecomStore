@@ -66,16 +66,20 @@ class App extends React.Component {
 
   createOrder = () => {
     console.log('this is createOrder')
+    let user = JSON.parse(localStorage.getItem('userInfo'))
+    let id = user.user.id
     let newOrder = {
-      user_id: 1,
+      user_id: id,
       shipped: false,
       paid: false
     }
     fetch('http://localhost:3000/api/v1/orders', {
       method: 'POST',
       headers: {
+
         'Content-Type': 'application/json',
         Accept: 'application/json'
+
       },
       body: JSON.stringify(newOrder)
     })
@@ -95,8 +99,11 @@ class App extends React.Component {
     this.adjustForOrder()
   }
 
-  createJoin = prod => {
-    console.log('create join', this.state.order_id)
+
+  createJoin = (prod) => {
+    const token = localStorage.getItem('token')
+    console.log('create join token', token)
+
     let newJoin = {
       order_id: this.state.order_id,
       product_id: prod.id
@@ -105,8 +112,10 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/ordereditems', {
       method: 'POST',
       headers: {
+
         'Content-Type': 'application/json',
         Accept: 'application/json'
+
       },
       body: JSON.stringify(newJoin)
     })
@@ -153,6 +162,7 @@ class App extends React.Component {
           })
         )
     })
+    window.location.reload()
   }
 
   handleNewProductSubmit = newProduct => {
@@ -160,8 +170,10 @@ class App extends React.Component {
     fetch(URL, {
       method: 'POST',
       headers: {
+
         'Content-Type': 'application/json',
         Accept: 'application/json'
+
       },
       body: JSON.stringify(newProduct)
     })
@@ -178,8 +190,10 @@ class App extends React.Component {
     fetch(`http://localhost:3000/api/v1/orders/${id}`, {
       method: 'PATCH',
       headers: {
+
         'Content-Type': 'application/json',
         Accept: 'application/json'
+
       },
       body: JSON.stringify({ paid: true })
     })

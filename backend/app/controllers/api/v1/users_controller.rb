@@ -1,13 +1,14 @@
 class Api::V1::UsersController < ApplicationController
-  skip_before_action :authorized, only: [:create, :show, :index]
+  skip_before_action :authorized, only: [:create, :show, :index, :update]
+
   def index
     users = User.all
-    render json: users, only: [:id, :username, :password, :address, :email], include: { orders: { only: [:paid, :shipped] } }
+    render json: users, only: [:id, :username, :password, :address, :email, :admin], include: { orders: { only: [:paid, :shipped] } }
   end
 
   def show
     user = User.find(params[:id])
-    render json: user, only: [:id, :username, :password, :address, :email]
+    render json: user, include: { orders: { only: [:paid, :shipped] } }
   end
 
   def create
@@ -16,14 +17,12 @@ class Api::V1::UsersController < ApplicationController
       @token = encode_token(user_id: @user.id)
       render json: { user: UserSerializer.new(@user), jwt: @token }, status: :created
     else
-      render json: { error: 'failed to create user' }, status: :not_acceptable
-    # render json: user, only: [:id, :username, :password, :address, :email]
+      render json: { error: "failed to create user" }, status: :not_acceptable
+      # render json: user, only: [:id, :username, :password, :address, :email]
     end
   end
 
   def account
     render json: { user: UserSerializer.new(current_user) }, status: :accepted
   end
-
-  
 end
