@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import MoreItems from '../components/MoreItems'
+import Rating from '../components/Rating'
 
 const URL = 'http://localhost:3000/api/v1/products/'
 
@@ -51,19 +52,16 @@ class ProductScreen extends React.Component {
       )
   }
 
-  handleSubmit =(e) =>{
+  handleSubmit = e => {
     e.preventDefault()
     console.log('submitted', this.state.rating)
     this.props.newRating(this.state.rating, this.props.match.params.id)
   }
 
-  ratingChange = (e) => {
+  ratingChange = e => {
     console.log(e.target.value)
-    this.setState({rating: e.target.value})
-    }
-
-    
-
+    this.setState({ rating: e.target.value })
+  }
 
   render() {
     return (
@@ -83,7 +81,8 @@ class ProductScreen extends React.Component {
                   <h3>{this.state.name}</h3>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <h3>Ratings</h3>
+                  <h2>Ratings</h2>
+                  {/* <Rating /> */}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
@@ -129,15 +128,19 @@ class ProductScreen extends React.Component {
           <Card>
             <Form onSubmit={this.handleSubmit}>
               <Form.Group>
+
                 <Form.Control as="select" onChange={this.ratingChange} >
                   <option default value='0'>Leave a Rating</option>
+
                   <option value='5'>⭐⭐⭐⭐⭐</option>
                   <option value='4'>⭐⭐⭐⭐</option>
                   <option value='3'>⭐⭐⭐</option>
                   <option value='2'>⭐⭐</option>
                   <option value='1'>⭐</option>
                 </Form.Control>
-                <Button type="submit" className='btn-block' >Submit</Button>
+                <Button type='submit' className='btn-block'>
+                  Submit
+                </Button>
               </Form.Group>
             </Form>
           </Card>
