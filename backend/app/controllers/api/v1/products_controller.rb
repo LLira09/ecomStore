@@ -1,5 +1,5 @@
 class Api::V1::ProductsController < ApplicationController
-  skip_before_action :authorized, only: [:show, :index, :update]
+  skip_before_action :authorized, only: [:show, :index, :update, :destroy]
 
   def index
     products = Product.all
@@ -19,6 +19,12 @@ class Api::V1::ProductsController < ApplicationController
   def update
     product = Product.find(params[:id])
     product.update(num_in_stock: params[:num_in_stock])
+    render json: product, only: [:id, :cateogry, :name, :image_url, :brand, :description, :price, :num_in_stock]
+  end
+
+  def destroy
+    product = Product.find(params[:id])
+    product.destroy
     render json: product, only: [:id, :cateogry, :name, :image_url, :brand, :description, :price, :num_in_stock]
   end
 end

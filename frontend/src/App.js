@@ -17,14 +17,18 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 const URL = 'http://localhost:3000/api/v1/products/'
 
 class App extends React.Component {
-  state = {
-    allProducts: [],
-    allOrders: [],
-    allUsers: [],
-    allReviews: [],
-    cart: [],
-    order_id: '',
-    loggedInUser: ''
+  constructor() {
+    super()
+    this.state = {
+      allProducts: [],
+      allOrders: [],
+      allUsers: [],
+      allReviews: [],
+      cart: [],
+      order_id: '',
+      loggedInUser: '',
+      reset: false
+    }
   }
 
   componentDidMount = () => {
@@ -34,13 +38,15 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/orders')
       .then(res => res.json())
       .then(orders => this.setState({ allOrders: orders }))
-      fetch('http://localhost:3000/api/v1/users')
+    fetch('http://localhost:3000/api/v1/users')
       .then(res => res.json())
       .then(users => this.setState({ allUsers: users }))
-      fetch('http://localhost:3000/api/v1/reviews')
+    fetch('http://localhost:3000/api/v1/reviews')
       .then(res => res.json())
-      .then(reviews => this.setState({ allReviews: reviews}))
+      .then(reviews => this.setState({ allReviews: reviews }))
   }
+
+
 
   loggedInUser = user => {
     // console.log('user logged in', user)
@@ -140,7 +146,7 @@ class App extends React.Component {
       .then(ret =>
         this.setState({
           allProducts: this.state.allProducts.map(prod =>
-            prod.id === id ? ret : prod
+            prod.id === parseInt(id) ? ret : prod
           )
         })
       )
@@ -188,6 +194,16 @@ class App extends React.Component {
       )
   }
 
+  deleteProduct = (id) => {
+    console.log('id', id)
+    fetch(`http://localhost:3000/api/v1/products/${id}`, {
+      method: 'DELETE'
+    })
+      .then(res => res.json())
+      // .then(this.setState({ allProducts: []}))
+      .then(this.setState({allProducts: this.state.allProducts.filter(product => product.id !== parseInt(id))}))
+  }
+
   markAsPaid = id => {
     console.log('mark as paid', id)
     fetch(`http://localhost:3000/api/v1/orders/${id}`, {
@@ -204,7 +220,7 @@ class App extends React.Component {
       .then(paidOrder =>
         this.setState({
           allOrders: this.state.allOrders.map(order =>
-            order.id === id ? paidOrder : order
+            order.id === parseInt(id) ? paidOrder : order
           )
         })
       )
@@ -229,8 +245,8 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/reviews/', {
       method: 'POST',
       headers: {
-        "Content-Type" : 'application/json',
-        Accept : 'application/json'
+        "Content-Type": 'application/json',
+        Accept: 'application/json'
       },
       body: JSON.stringify(ratingObj)
     })
@@ -274,6 +290,7 @@ class App extends React.Component {
               render={routeProps => (
                 <AdjustStock
                   {...routeProps}
+                  deleteProduct={this.deleteProduct}
                   adjustStock={this.adjustStock}
                   allProducts={this.state.allProducts}
                 />
