@@ -125,12 +125,12 @@ class ProductScreen extends React.Component {
           </Col>
         </Row>
 
-        <Col md={6}>
+        <Col md={3}>
           <Card>
             <Form onSubmit={this.handleSubmit}>
               <Form.Group>
                 <Form.Control as="select" onChange={this.ratingChange} >
-                  <option default>Leave a Rating</option>
+                  <option default value='0'>Leave a Rating</option>
                   <option value='5'>⭐⭐⭐⭐⭐</option>
                   <option value='4'>⭐⭐⭐⭐</option>
                   <option value='3'>⭐⭐⭐</option>

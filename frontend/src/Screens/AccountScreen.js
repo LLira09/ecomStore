@@ -10,6 +10,12 @@ class AccountScreen extends React.Component {
         reset: false
     }
 
+    componentDidUpdate(prevState, prevProps){
+        if(prevProps.allOrders !== this.props.allOrders){
+            console.log('am i even here?')
+            this.renderUserOrders()
+        }
+    }
 
 
     renderOrders = () => {
@@ -38,6 +44,7 @@ class AccountScreen extends React.Component {
                             <td>{order.products.length}</td>
                             <td>${order.products.reduce((a, b) => a + b.price, 0)}</td>
                             <td>{order.created_at}</td>
+                            <button id={order.id} onClick={this.markAsShipped} >mark as shipped</button>
                         </tr>
                     )
 
@@ -129,10 +136,20 @@ class AccountScreen extends React.Component {
     
     }
 
+    markAsShipped = (e) => {
+        console.log(e.target.id)
+        this.props.markAsShipped(e.target.id)
+        this.setState({
+            reset: !this.state.reset
+        })
+    
+    }
+
     renderUserOrders = () => {
         let user = JSON.parse(localStorage.getItem('userInfo'))
         let id = user.user.id
         let myOrders = this.props.allOrders.filter(order => order.user_id === id)
+        console.log('I GIT HERE')
         return myOrders.map(order => {
             return <tr>
                 <td>{order.id}</td>
@@ -146,7 +163,9 @@ class AccountScreen extends React.Component {
     }
 
     productsNames = (id) => {
+        console.log('order id:', id)
         let order = this.props.allOrders.find(order => order.id === id)
+        console.log('this is the order', order)
         return order.products.map(product => <p >{product.name}</p>)
     }
 
