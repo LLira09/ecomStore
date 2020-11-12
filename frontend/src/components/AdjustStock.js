@@ -3,15 +3,34 @@ import { Table, Button } from 'react-bootstrap';
 
 
 class AdjustStock extends React.Component {
+
     state = {
-        stock: ''
+        stock: '',
+        refresh: false
     }
+
+
+
+
 
     handleChange = (e) => {
         this.setState({
             stock: e.target.value
         })
     }
+
+    deleteClick = (e) => {
+        this.props.deleteProduct(e.target.id)
+        this.refreshState()
+    }
+
+    refreshState = () => {
+        this.setState({
+            refresh: !this.state.refresh
+        })
+    }
+
+
 
     renderInventory = () => {
         return this.props.allProducts.map(product =>
@@ -21,14 +40,15 @@ class AdjustStock extends React.Component {
                 <td>{product.num_in_stock}</td>
                 <td width="5"><input onChange={this.handleChange} size="3" name="new-qty"></input></td>
                 <td width="5"><Button type="submit" id={product.id} onClick={this.handleClick}>Submit</Button></td>
+                <td width="5"><Button variant="danger" type="submit" id={product.id} onClick={this.deleteClick}>Delete</Button></td>
             </tr>
-            
+
         )
     }
 
     handleClick = (e) => {
         this.props.adjustStock(e.target.id, this.state.stock)
-        window.location.reload()
+        this.refreshState()
     }
 
     render() {
@@ -48,6 +68,7 @@ class AdjustStock extends React.Component {
                         {this.renderInventory()}
                     </tbody>
                 </Table>
+                <Button onClick={this.refeshState}>reset</Button>
             </div>
         )
     }
