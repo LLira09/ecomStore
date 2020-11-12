@@ -22,7 +22,8 @@ class App extends React.Component {
     allOrders: [],
     allUsers: [],
     cart: [],
-    order_id: ''
+    order_id: '',
+    loggedInUser: ''
   }
 
   componentDidMount = () => {
@@ -37,15 +38,22 @@ class App extends React.Component {
       .then(users => this.setState({ allUsers: users }))
   }
 
-  addToCart = (product) => {
+  loggedInUser = user => {
+    // console.log('user logged in', user)
+    this.setState({
+      loggedInUser: user
+    })
+    // console.log('app', this.state.loggedInUser)
+  }
 
+  addToCart = product => {
     this.setState({
       cart: [...this.state.cart, product]
     })
     alert(`${product.name} has been added to cart`)
   }
 
-  removeFromCart = (input) => {
+  removeFromCart = input => {
     this.setState({
       cart: this.state.cart.filter(product => product.id !== input)
     })
@@ -68,8 +76,10 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/orders', {
       method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
+
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+
       },
       body: JSON.stringify(newOrder)
     })
@@ -89,23 +99,26 @@ class App extends React.Component {
     this.adjustForOrder()
   }
 
+
   createJoin = (prod) => {
     const token = localStorage.getItem('token')
     console.log('create join token', token)
+
     let newJoin = {
       order_id: this.state.order_id,
       product_id: prod.id
     }
 
     fetch('http://localhost:3000/api/v1/ordereditems', {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
+
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+
       },
       body: JSON.stringify(newJoin)
     })
-
   }
 
   adjustStock = (id, num) => {
@@ -114,15 +127,19 @@ class App extends React.Component {
     fetch(`http://localhost:3000/api/v1/products/${id}`, {
       method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
       },
       body: JSON.stringify(updatedProduct)
     })
       .then(res => res.json())
-      .then(ret => this.setState({
-        allProducts: this.state.allProducts.map(prod => prod.id === id ? ret : prod)
-      }))
+      .then(ret =>
+        this.setState({
+          allProducts: this.state.allProducts.map(prod =>
+            prod.id === id ? ret : prod
+          )
+        })
+      )
   }
 
   adjustForOrder = () => {
@@ -131,63 +148,126 @@ class App extends React.Component {
       fetch(`http://localhost:3000/api/v1/products/${item.id}`, {
         method: 'PATCH',
         headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
         },
         body: JSON.stringify(item)
       })
         .then(res => res.json())
-        .then(ret => this.setState({
-          allProducts: this.state.allProducts.map(prod => prod.id === item.id ? ret : prod)
-        }))
+        .then(ret =>
+          this.setState({
+            allProducts: this.state.allProducts.map(prod =>
+              prod.id === item.id ? ret : prod
+            )
+          })
+        )
     })
     window.location.reload()
   }
 
-  handleNewProductSubmit = (newProduct) => {
+  handleNewProductSubmit = newProduct => {
     console.log(newProduct)
     fetch(URL, {
       method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
+
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+
       },
       body: JSON.stringify(newProduct)
     })
       .then(res => res.json())
-      .then(returnedProduct => this.setState({ allProducts: [...this.state.allProducts, returnedProduct] }))
+      .then(returnedProduct =>
+        this.setState({
+          allProducts: [...this.state.allProducts, returnedProduct]
+        })
+      )
   }
 
-  markAsPaid = (id) => {
+  markAsPaid = id => {
     console.log('mark as paid', id)
     fetch(`http://localhost:3000/api/v1/orders/${id}`, {
       method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json", 
+
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+
       },
-      body: JSON.stringify({paid: true})
+      body: JSON.stringify({ paid: true })
     })
       .then(res => res.json())
-      .then(paidOrder => this.setState({
-        allOrders: this.state.allOrders.map(order => order.id === id ? paidOrder : order)
-      }))
+      .then(paidOrder =>
+        this.setState({
+          allOrders: this.state.allOrders.map(order =>
+            order.id === id ? paidOrder : order
+          )
+        })
+      )
   }
 
-
-
+  handleLogout = () => {
+    console.log('Logout')
+    this.setState({ loggedInUser: '' })
+    // localStorage.removeItem('userInfo')
+    // localStorage.setItem('userInfo', 'no user')
+  }
 
   render() {
     return (
       <Router>
-        <Header />
+        <Header
+          handleLogout={this.handleLogout}
+          loggedIn={this.state.loggedInUser}
+        />
         <main className='py-3'>
           <Container>
-
-            <Route exact path='/newitem' render={(routeProps) => <NewItem {...routeProps} handleNewProductSubmit={this.handleNewProductSubmit} />} />
-            <Route exact path='/account' render={(routeProps) => <AccountScreen {...routeProps} allOrders={this.state.allOrders} allUsers={this.state.allUsers} markAsPaid={this.markAsPaid} />} />
-            <Route exact path='/adjuststock' render={(routeProps) => <AdjustStock {...routeProps} adjustStock={this.adjustStock} allProducts={this.state.allProducts} />} />
-            <Route exact path='/cart' render={(routeProps) => (<Cart {...routeProps} startOrder={this.startOrder} cart={this.state.cart} removeFromCart={this.removeFromCart} />)} />
+            <Route
+              exact
+              path='/newitem'
+              render={routeProps => (
+                <NewItem
+                  {...routeProps}
+                  handleNewProductSubmit={this.handleNewProductSubmit}
+                />
+              )}
+            />
+            <Route
+              exact
+              path='/account'
+              render={routeProps => (
+                <AccountScreen
+                  {...routeProps}
+                  allOrders={this.state.allOrders}
+                  allUsers={this.state.allUsers}
+                  markAsPaid={this.markAsPaid}
+                />
+              )}
+            />
+            <Route
+              exact
+              path='/adjuststock'
+              render={routeProps => (
+                <AdjustStock
+                  {...routeProps}
+                  adjustStock={this.adjustStock}
+                  allProducts={this.state.allProducts}
+                />
+              )}
+            />
+            <Route
+              exact
+              path='/cart'
+              render={routeProps => (
+                <Cart
+                  {...routeProps}
+                  startOrder={this.startOrder}
+                  cart={this.state.cart}
+                  removeFromCart={this.removeFromCart}
+                />
+              )}
+            />
 
             <Route
               exact
@@ -202,7 +282,6 @@ class App extends React.Component {
             <Route
               exact
               path='/products/:id'
-
               render={routeProps => (
                 <ProductScreen
                   {...routeProps}
@@ -210,9 +289,14 @@ class App extends React.Component {
                   allProducts={this.state.allProducts}
                 />
               )}
-
             />
-            <Route exact path='/login' component={SignIn} />
+            <Route
+              exact
+              path='/login'
+              render={routeProps => (
+                <SignIn {...routeProps} loggedInUser={this.loggedInUser} />
+              )}
+            />
             <Route
               exact
               path='/signup'
