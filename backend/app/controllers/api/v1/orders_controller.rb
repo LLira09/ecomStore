@@ -3,7 +3,7 @@ class Api::V1::OrdersController < ApplicationController
 
   def index
     orders = Order.all
-    render json: orders, include: { products: { only: [:name, :brand, :price] } }
+    render json: orders, include: { products: { only: [:id, :name, :brand, :price] } }
   end
 
   def show

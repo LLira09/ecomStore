@@ -162,7 +162,6 @@ class App extends React.Component {
           })
         )
     })
-    window.location.reload()
   }
 
   handleNewProductSubmit = newProduct => {
@@ -213,6 +212,26 @@ class App extends React.Component {
     // localStorage.removeItem('userInfo')
     // localStorage.setItem('userInfo', 'no user')
   }
+
+  newRating = (input, prod_id) => {
+    console.log('match', prod_id)
+    let new_rating = input
+    let user_id = this.state.loggedInUser.user.id
+    let ratingObj = {
+      user_id: user_id,
+      rating: new_rating,
+      product_id: prod_id
+    }
+    fetch('http://localhost:3000/api/v1/reviews/', {
+      method: 'POST',
+      headers: {
+        "Content-Type" : 'application/json',
+        Accept : 'application/json'
+      },
+      body: JSON.stringify(ratingObj)
+    })
+  }
+
 
   render() {
     return (
@@ -287,6 +306,7 @@ class App extends React.Component {
                   {...routeProps}
                   addToCart={this.addToCart}
                   allProducts={this.state.allProducts}
+                  newRating={this.newRating}
                 />
               )}
             />
