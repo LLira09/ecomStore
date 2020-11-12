@@ -46,6 +46,20 @@ class App extends React.Component {
       .then(reviews => this.setState({ allReviews: reviews }))
   }
 
+  addNewUser = (newUser) => {
+    fetch('http://localhost:3000/api/v1/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify(newUser)
+    })
+      .then(res => res.json())
+      .then(newUser => this.setState({
+        allUsers: [...this.state.allUsers, newUser]
+      }))
+  }
 
 
   loggedInUser = user => {
@@ -97,6 +111,7 @@ class App extends React.Component {
       .then(order => {
         console.log('this is the order', order)
         this.setState({
+          allOrders: [...this.state.allOrders, order],
           order_id: order.id
         })
         this.createOrderedItems()
@@ -104,7 +119,6 @@ class App extends React.Component {
   }
 
   createOrderedItems = () => {
-    console.log('create ordered items', this.state, 'wtf')
     this.state.cart.map(item => this.createJoin(item))
     this.adjustForOrder()
   }
@@ -118,6 +132,7 @@ class App extends React.Component {
       order_id: this.state.order_id,
       product_id: prod.id
     }
+    console.log('new join', newJoin)
 
     fetch('http://localhost:3000/api/v1/ordereditems', {
       method: 'POST',
@@ -226,6 +241,28 @@ class App extends React.Component {
       )
   }
 
+  markAsShipped = id => {
+    console.log('mark as shipped', id)
+    fetch(`http://localhost:3000/api/v1/orders/${id}`, {
+      method: 'PATCH',
+      headers: {
+
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+
+      },
+      body: JSON.stringify({ shipped: true })
+    })
+      .then(res => res.json())
+      .then(shippedOrder =>
+        this.setState({
+          allOrders: this.state.allOrders.map(order =>
+            order.id === parseInt(id) ? shippedOrder : order
+          )
+        })
+      )
+  }
+
   handleLogout = () => {
     console.log('Logout')
     this.setState({ loggedInUser: '' })
@@ -281,6 +318,7 @@ class App extends React.Component {
                   allOrders={this.state.allOrders}
                   allUsers={this.state.allUsers}
                   markAsPaid={this.markAsPaid}
+                  markAsShipped={this.markAsShipped}
                 />
               )}
             />
@@ -341,7 +379,7 @@ class App extends React.Component {
             <Route
               exact
               path='/signup'
-              render={routeProps => <SignUp {...routeProps} />}
+              render={routeProps => <SignUp {...routeProps} addNewUser={this.addNewUser} />}
             />
           </Container>
         </main>

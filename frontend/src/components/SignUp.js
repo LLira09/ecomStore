@@ -34,16 +34,8 @@ class SignUp extends React.Component {
       newUser.name != '' &&
       newUser.email != ''
     ) {
-      fetch(URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify(newUser)
-      })
-        .then(console.log('new  user created', newUser))
-        .then(this.props.history.push('/login'))
+      this.props.addNewUser(newUser)
+      this.props.history.push('/login')
     } else alert('Passwords Do Not Match or a Required Field is Blank')
   }
 
