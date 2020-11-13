@@ -123,28 +123,35 @@ class ProductScreen extends React.Component {
             </Card>
           </Col>
         </Row>
+        <Row className='py-3'>
+          <Col md={6}></Col>
+          <Col md={6}>
+            <Card>
+              <ListGroup>
+                <ListGroup.Item>
+                  <Form onSubmit={this.handleSubmit}>
+                    <Form.Group>
+                      <Form.Control as='select' onChange={this.ratingChange}>
+                        <option default value='0'>
+                          Leave a Rating
+                        </option>
 
-        <Col md={3}>
-          <Card>
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group>
-
-                <Form.Control as="select" onChange={this.ratingChange} >
-                  <option default value='0'>Leave a Rating</option>
-
-                  <option value='5'>⭐⭐⭐⭐⭐</option>
-                  <option value='4'>⭐⭐⭐⭐</option>
-                  <option value='3'>⭐⭐⭐</option>
-                  <option value='2'>⭐⭐</option>
-                  <option value='1'>⭐</option>
-                </Form.Control>
-                <Button type='submit' className='btn-block'>
-                  Submit
-                </Button>
-              </Form.Group>
-            </Form>
-          </Card>
-        </Col>
+                        <option value='5'>⭐⭐⭐⭐⭐</option>
+                        <option value='4'>⭐⭐⭐⭐</option>
+                        <option value='3'>⭐⭐⭐</option>
+                        <option value='2'>⭐⭐</option>
+                        <option value='1'>⭐</option>
+                      </Form.Control>
+                      <Button type='submit' className='btn-block'>
+                        Submit
+                      </Button>
+                    </Form.Group>
+                  </Form>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </Col>
+        </Row>
         <Row>
           <MoreItems
             products={this.props.allProducts}

@@ -46,15 +46,10 @@ class App extends React.Component {
     //   .then(reviews => this.setState({ allReviews: reviews }))
   }
 
-  // componentDidUpdate(prevState, prevProps){
-  //   if(prevState.allProducts !== this.state.allProducts){
-  //     fetch(URL)
-  //     .then(res => res.json())
-  //     .then(prod => this.setState({ allProducts: prod }))
-  //   }
-  // }
+
 
   addNewUser = (newUser) => {
+
     fetch('http://localhost:3000/api/v1/users', {
       method: 'POST',
       headers: {
@@ -64,11 +59,12 @@ class App extends React.Component {
       body: JSON.stringify(newUser)
     })
       .then(res => res.json())
-      .then(newUser => this.setState({
-        allUsers: [...this.state.allUsers, newUser]
-      }))
+      .then(newUser =>
+        this.setState({
+          allUsers: [...this.state.allUsers, newUser]
+        })
+      )
   }
-
 
   loggedInUser = user => {
     // console.log('user logged in', user)
@@ -109,10 +105,8 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/orders', {
       method: 'POST',
       headers: {
-
         'Content-Type': 'application/json',
         Accept: 'application/json'
-
       },
       body: JSON.stringify(newOrder)
     })
@@ -132,8 +126,7 @@ class App extends React.Component {
     this.adjustForOrder()
   }
 
-
-  createJoin = (prod) => {
+  createJoin = prod => {
     const token = localStorage.getItem('token')
     console.log('create join token', token)
 
@@ -146,10 +139,8 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/ordereditems', {
       method: 'POST',
       headers: {
-
         'Content-Type': 'application/json',
         Accept: 'application/json'
-
       },
       body: JSON.stringify(newJoin)
     })
@@ -203,10 +194,8 @@ class App extends React.Component {
     fetch(URL, {
       method: 'POST',
       headers: {
-
         'Content-Type': 'application/json',
         Accept: 'application/json'
-
       },
       body: JSON.stringify(newProduct)
     })
@@ -218,14 +207,20 @@ class App extends React.Component {
       )
   }
 
-  deleteProduct = (id) => {
+  deleteProduct = id => {
     console.log('id', id)
     fetch(`http://localhost:3000/api/v1/products/${id}`, {
       method: 'DELETE'
     })
       .then(res => res.json())
       // .then(this.setState({ allProducts: []}))
-      .then(this.setState({allProducts: this.state.allProducts.filter(product => product.id !== parseInt(id))}))
+      .then(
+        this.setState({
+          allProducts: this.state.allProducts.filter(
+            product => product.id !== parseInt(id)
+          )
+        })
+      )
   }
 
   markAsPaid = id => {
@@ -233,10 +228,8 @@ class App extends React.Component {
     fetch(`http://localhost:3000/api/v1/orders/${id}`, {
       method: 'PATCH',
       headers: {
-
         'Content-Type': 'application/json',
         Accept: 'application/json'
-
       },
       body: JSON.stringify({ paid: true })
     })
@@ -255,10 +248,8 @@ class App extends React.Component {
     fetch(`http://localhost:3000/api/v1/orders/${id}`, {
       method: 'PATCH',
       headers: {
-
         'Content-Type': 'application/json',
         Accept: 'application/json'
-
       },
       body: JSON.stringify({ shipped: true })
     })
@@ -291,7 +282,7 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/reviews/', {
       method: 'POST',
       headers: {
-        "Content-Type": 'application/json',
+        'Content-Type': 'application/json',
         Accept: 'application/json'
       },
       body: JSON.stringify(ratingObj)
@@ -300,7 +291,6 @@ class App extends React.Component {
     .then(newReview => this.setState({ allReviews: [...this.state.allReviews, newReview]}))
 
   }
-
 
   render() {
     return (
@@ -366,6 +356,7 @@ class App extends React.Component {
                 <HomeScreen
                   {...routeProps}
                   allProducts={this.state.allProducts}
+                  allReviews={this.state.allReviews}
                 />
               )}
             />
@@ -391,7 +382,9 @@ class App extends React.Component {
             <Route
               exact
               path='/signup'
-              render={routeProps => <SignUp {...routeProps} addNewUser={this.addNewUser} />}
+              render={routeProps => (
+                <SignUp {...routeProps} addNewUser={this.addNewUser} />
+              )}
             />
           </Container>
         </main>
