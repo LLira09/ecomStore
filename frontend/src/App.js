@@ -41,12 +41,15 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/users')
       .then(res => res.json())
       .then(users => this.setState({ allUsers: users }))
-    fetch('http://localhost:3000/api/v1/reviews')
-      .then(res => res.json())
-      .then(reviews => this.setState({ allReviews: reviews }))
+    // fetch('http://localhost:3000/api/v1/reviews')
+    //   .then(res => res.json())
+    //   .then(reviews => this.setState({ allReviews: reviews }))
   }
 
-  addNewUser = newUser => {
+
+
+  addNewUser = (newUser) => {
+
     fetch('http://localhost:3000/api/v1/users', {
       method: 'POST',
       headers: {
@@ -72,6 +75,7 @@ class App extends React.Component {
   }
 
   addToCart = product => {
+    
     this.setState({
       cart: [...this.state.cart, product]
     })
@@ -283,6 +287,9 @@ class App extends React.Component {
       },
       body: JSON.stringify(ratingObj)
     })
+    .then(res => res.json())
+    .then(newReview => this.setState({ allReviews: [...this.state.allReviews, newReview]}))
+
   }
 
   render() {

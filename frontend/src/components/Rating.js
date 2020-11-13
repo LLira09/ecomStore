@@ -2,9 +2,12 @@ import React from 'react'
 
 const Rating = (product, props) => {
   const { reviews } = product.product
+
   console.log(props)
 
+
   return (
+    
     <div>
       {(
         reviews.reduce((acc, rev) => acc + rev.rating, 0) / reviews.length
