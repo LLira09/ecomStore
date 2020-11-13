@@ -153,6 +153,7 @@ class AccountScreen extends React.Component {
         return myOrders.map(order => {
             return <tr>
                 <td>{order.id}</td>
+                {console.log('hi')}
                 <td>{this.productsNames(order.id)}</td>
                 <td>{order.shipped === true ? 'Shipped' : 'Staged for Shipping'} </td>
             </tr>
@@ -165,8 +166,10 @@ class AccountScreen extends React.Component {
     productsNames = (id) => {
         console.log('order id:', id)
         let order = this.props.allOrders.find(order => order.id === id)
-        console.log('this is the order', order)
+        console.log('this is the order', order.products)
+        if(order.products !== undefined ){
         return order.products.map(product => <p >{product.name}</p>)
+        }else{ return (<p>Waiting for inventory Update</p>)}
     }
 
     renderAdminSection = () => {

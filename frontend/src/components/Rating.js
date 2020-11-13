@@ -2,13 +2,16 @@ import React from 'react'
 
 const Rating = product => {
   const { reviews } = product.product
-  if (reviews.length > 0) {
+  console.log('this is reviews')
+  if (reviews !== undefined && reviews.length > 0) {
     console.log(reviews)
     let value = reviews.reduce((acc, rev) => acc + rev.rating, 0)
     const avg = value / reviews.length
     console.log(avg)
   }
+
   return (
+    
     <div>
       {(
         reviews.reduce((acc, rev) => acc + rev.rating, 0) / reviews.length
