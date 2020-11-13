@@ -28,6 +28,7 @@ class Rating extends React.Component{
     let reviews = this.state.ProductReviews
     // }else{let reviews = [{rating:0}]}
 
+
   return (
     // <div>
     // {this.getReviews()}
