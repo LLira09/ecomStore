@@ -48,11 +48,11 @@ class App extends React.Component {
 
   // componentDidUpdate(prevState, prevProps){
   //   if(prevState.allProducts !== this.state.allProducts){
-  //     fetch(URL)
-  //     .then(res => res.json())
-  //     .then(prod => this.setState({ allProducts: prod }))
+  //     this.setState({reset: !this.state.reset})
   //   }
   // }
+
+
 
   addNewUser = (newUser) => {
     fetch('http://localhost:3000/api/v1/users', {
@@ -130,6 +130,7 @@ class App extends React.Component {
   createOrderedItems = () => {
     this.state.cart.map(item => this.createJoin(item))
     this.adjustForOrder()
+    alert('Stripe API would go Here...')
   }
 
 
@@ -275,8 +276,9 @@ class App extends React.Component {
   handleLogout = () => {
     console.log('Logout')
     this.setState({ loggedInUser: '' })
-    // localStorage.removeItem('userInfo')
+    localStorage.removeItem('userInfo')
     // localStorage.setItem('userInfo', 'no user')
+    window.location.reload()
   }
 
   newRating = (input, prod_id) => {
