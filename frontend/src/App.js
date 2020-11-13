@@ -48,6 +48,8 @@ class App extends React.Component {
 
 
 
+
+
   addNewUser = (newUser) => {
 
     fetch('http://localhost:3000/api/v1/users', {
@@ -124,6 +126,7 @@ class App extends React.Component {
   createOrderedItems = () => {
     this.state.cart.map(item => this.createJoin(item))
     this.adjustForOrder()
+    alert('Stripe API would go Here...')
   }
 
   createJoin = prod => {
@@ -266,8 +269,9 @@ class App extends React.Component {
   handleLogout = () => {
     console.log('Logout')
     this.setState({ loggedInUser: '' })
-    // localStorage.removeItem('userInfo')
+    localStorage.removeItem('userInfo')
     // localStorage.setItem('userInfo', 'no user')
+    window.location.reload()
   }
 
   newRating = (input, prod_id) => {
